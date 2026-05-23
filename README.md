@@ -35,6 +35,12 @@ npm run build --prefix server
 npm run build --prefix client
 ```
 
+To smoke test the API after starting the server in another terminal:
+
+```bash
+npm run smoke --prefix server
+```
+
 ## Architecture
 
 - `server/src` contains a small Express API written in TypeScript.
