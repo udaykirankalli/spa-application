@@ -1,0 +1,67 @@
+<section class="page-shell dashboard" *ngIf="currentUser$ | async as user">
+  <div class="dashboard__hero panel">
+    <div>
+      <p class="eyebrow">{{ user.role }}</p>
+      <h1>{{ user.displayName }}</h1>
+      <p>{{ user.department }} · {{ user.accessLevel }}</p>
+    </div>
+    <div class="identity-grid">
+      <div>
+        <span>User ID</span>
+        <strong>{{ user.userId }}</strong>
+      </div>
+      <div>
+        <span>Status</span>
+        <strong>{{ user.status }}</strong>
+      </div>
+      <div>
+        <span>Visible Records</span>
+        <strong>{{ records.length }}</strong>
+      </div>
+      <div>
+        <span>Record Value</span>
+        <strong>{{ totalAmount | currency: 'INR' }}</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-heading">
+    <div>
+      <h2>Accessible Records</h2>
+      <p>{{ accessNote || 'Loading role based records from the API.' }}</p>
+    </div>
+    <button class="quiet-button" type="button" (click)="loadRecords(2200)" [disabled]="loadingRecords">
+      {{ loadingRecords ? 'Loading...' : 'Reload with delay' }}
+    </button>
+  </div>
+
+  <div class="notice" *ngIf="loadingRecords">Waiting for delayed API response...</div>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="panel table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Record</th>
+          <th>Customer</th>
+          <th>Region</th>
+          <th>Category</th>
+          <th>Amount</th>
+          <th>Risk</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of records">
+          <td>{{ record.id }}</td>
+          <td>{{ record.customer }}</td>
+          <td>{{ record.region }}</td>
+          <td>{{ record.category }}</td>
+          <td>{{ record.amount | currency: 'INR' }}</td>
+          <td><span class="pill">{{ record.risk }}</span></td>
+          <td>{{ record.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

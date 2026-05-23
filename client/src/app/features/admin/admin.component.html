@@ -1,0 +1,96 @@
+<section class="page-shell admin-page" *ngIf="currentUser$ | async as activeUser">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Admin Console</p>
+      <h1>User Management</h1>
+      <p>Create accounts, adjust roles, and disable access from the local dummy database.</p>
+    </div>
+    <button class="quiet-button" type="button" (click)="loadUsers(1600)" [disabled]="loadingUsers">
+      {{ loadingUsers ? 'Loading...' : 'Reload users' }}
+    </button>
+  </div>
+
+  <div class="admin-grid">
+    <form class="panel user-form" [formGroup]="userForm" (ngSubmit)="createUser()">
+      <h2>New User</h2>
+
+      <label class="field">
+        <span>User ID</span>
+        <input type="text" formControlName="userId">
+      </label>
+      <label class="field">
+        <span>Display Name</span>
+        <input type="text" formControlName="displayName">
+      </label>
+      <label class="field">
+        <span>Department</span>
+        <input type="text" formControlName="department">
+      </label>
+      <label class="field">
+        <span>Role</span>
+        <select formControlName="role">
+          <option *ngFor="let role of roles" [ngValue]="role">{{ role }}</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input type="password" formControlName="password">
+      </label>
+      <label class="field">
+        <span>Access Level</span>
+        <input type="text" formControlName="accessLevel">
+      </label>
+
+      <button class="primary-button" type="submit" [disabled]="savingUser">
+        {{ savingUser ? 'Saving...' : 'Create user' }}
+      </button>
+    </form>
+
+    <div class="panel table-wrap">
+      <div class="table-status">
+        <span class="notice" *ngIf="loadingUsers">Loading users with API delay...</span>
+        <span class="notice" *ngIf="noticeMessage && !loadingUsers">{{ noticeMessage }}</span>
+        <span class="error" *ngIf="errorMessage">{{ errorMessage }}</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Access Level</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>
+              <strong>{{ user.displayName }}</strong>
+              <small>{{ user.userId }} · {{ user.department }}</small>
+            </td>
+            <td><span class="pill">{{ user.role }}</span></td>
+            <td>{{ user.status }}</td>
+            <td>{{ user.accessLevel }}</td>
+            <td class="actions">
+              <button class="quiet-button" type="button" (click)="changeRole(user)">
+                {{ user.role === 'Admin' ? 'Make General' : 'Make Admin' }}
+              </button>
+              <button class="quiet-button" type="button" (click)="changeStatus(user)">
+                {{ user.status === 'Active' ? 'Disable' : 'Activate' }}
+              </button>
+              <button
+                class="danger-button"
+                type="button"
+                (click)="deleteUser(user)"
+                [disabled]="user.userId === activeUser.userId"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

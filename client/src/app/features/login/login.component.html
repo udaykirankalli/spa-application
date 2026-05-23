@@ -1,0 +1,44 @@
+<section class="login-shell">
+  <div class="login-copy">
+    <p class="eyebrow">Role based secure access</p>
+    <h1>One workspace, two access levels, clear API behavior.</h1>
+    <p>
+      Sign in as an admin to manage users, or as a general user to see only assigned records.
+    </p>
+  </div>
+
+  <form class="panel login-card" [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+    <div>
+      <h2>Login</h2>
+      <p>Use the seeded credentials or create users from the admin screen.</p>
+    </div>
+
+    <label class="field">
+      <span>User ID</span>
+      <input type="text" formControlName="userId" autocomplete="username">
+    </label>
+
+    <label class="field">
+      <span>Password</span>
+      <input type="password" formControlName="password" autocomplete="current-password">
+    </label>
+
+    <label class="field">
+      <span>Role</span>
+      <select formControlName="role">
+        <option *ngFor="let role of roles" [ngValue]="role">{{ role }}</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>API delay in milliseconds</span>
+      <input type="number" min="0" max="5000" formControlName="delayMs">
+    </label>
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <button class="primary-button" type="submit" [disabled]="loading">
+      {{ loading ? 'Signing in...' : 'Sign in' }}
+    </button>
+  </form>
+</section>

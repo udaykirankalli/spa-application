@@ -1,0 +1,26 @@
+<header class="topbar">
+  <div class="page-shell topbar__inner">
+    <a class="brand" routerLink="/dashboard">
+      <span class="brand__mark">RA</span>
+      <span>Role Access Workspace</span>
+    </a>
+
+    <nav class="nav" *ngIf="currentUser$ | async as user">
+      <a routerLink="/dashboard" routerLinkActive="nav__link--active" class="nav__link">Dashboard</a>
+      <a
+        *ngIf="user.role === 'Admin'"
+        routerLink="/admin/users"
+        routerLinkActive="nav__link--active"
+        class="nav__link"
+      >
+        Users
+      </a>
+      <span class="nav__identity">{{ user.displayName }}</span>
+      <button type="button" class="quiet-button" (click)="logout()">Logout</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
