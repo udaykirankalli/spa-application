@@ -1,0 +1,77 @@
+{
+  "sessions": [],
+  "users": [
+    {
+      "id": "u-admin-01",
+      "userId": "admin01",
+      "displayName": "Mira Admin",
+      "department": "Platform Governance",
+      "role": "Admin",
+      "password": "Admin@123",
+      "status": "Active",
+      "accessLevel": "Full portfolio access"
+    },
+    {
+      "id": "u-general-01",
+      "userId": "user01",
+      "displayName": "Rohan Mehta",
+      "department": "Retail Operations",
+      "role": "General User",
+      "password": "User@123",
+      "status": "Active",
+      "accessLevel": "Own branch records"
+    },
+    {
+      "id": "u-general-02",
+      "userId": "user02",
+      "displayName": "Anika Rao",
+      "department": "Customer Success",
+      "role": "General User",
+      "password": "User@456",
+      "status": "Active",
+      "accessLevel": "Assigned customer records"
+    }
+  ],
+  "records": [
+    {
+      "id": "rec-1001",
+      "ownerUserId": "user01",
+      "customer": "Northwind Textiles",
+      "region": "West",
+      "category": "Invoice Review",
+      "amount": 18300,
+      "risk": "Low",
+      "status": "Approved"
+    },
+    {
+      "id": "rec-1002",
+      "ownerUserId": "user01",
+      "customer": "Urban Basket",
+      "region": "South",
+      "category": "Credit Limit",
+      "amount": 46200,
+      "risk": "Medium",
+      "status": "Pending"
+    },
+    {
+      "id": "rec-2001",
+      "ownerUserId": "user02",
+      "customer": "BrightPath Foods",
+      "region": "East",
+      "category": "KYC Check",
+      "amount": 9200,
+      "risk": "Low",
+      "status": "In Review"
+    },
+    {
+      "id": "rec-9001",
+      "ownerUserId": "admin01",
+      "customer": "Enterprise Audit Desk",
+      "region": "All India",
+      "category": "Admin Oversight",
+      "amount": 125000,
+      "risk": "High",
+      "status": "Escalated"
+    }
+  ]
+}
