@@ -3,23 +3,38 @@ import express from 'express';
 import { v4 as uuid } from 'uuid';
 import { authenticate, requireAdmin } from './auth';
 import { delayedResponse } from './delay';
+import { requestLogger } from './logger';
 import { readDatabase, toPublicUser, writeDatabase } from './storage';
 import { AccountStatus, UserRole } from './types';
+import {
+  isAccountStatus,
+  isUserRole,
+  readOptionalText,
+  readRequiredText
+} from './validators';
 
 const app = express();
 const port = Number(process.env.PORT ?? 3000);
-const allowedRoles: UserRole[] = ['General User', 'Admin'];
-const allowedStatuses: AccountStatus[] = ['Active', 'Disabled'];
 
 app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(express.json());
+app.use(requestLogger);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', api: 'role-access-api' });
 });
 
 app.post('/api/auth/login', delayedResponse, async (req, res) => {
-  const { userId, password, role } = req.body as { userId?: string; password?: string; role?: UserRole };
+  const payload = req.body as Record<string, unknown>;
+  const userId = readRequiredText(payload, 'userId');
+  const password = readRequiredText(payload, 'password');
+  const role = payload['role'];
+
+  if (!userId || !password || !isUserRole(role)) {
+    res.status(400).json({ message: 'User ID, password, and valid role are required.' });
+    return;
+  }
+
   const database = await readDatabase();
   const matchingUser = database.users.find(
     (user) => user.userId === userId && user.password === password && user.role === role
@@ -74,41 +89,43 @@ app.get('/api/users', authenticate, requireAdmin, delayedResponse, async (_req, 
 });
 
 app.post('/api/users', authenticate, requireAdmin, async (req, res) => {
-  const payload = req.body as Partial<{
-    userId: string;
-    displayName: string;
-    department: string;
-    role: UserRole;
-    password: string;
-    status: AccountStatus;
-    accessLevel: string;
-  }>;
+  const payload = req.body as Record<string, unknown>;
+  const userId = readRequiredText(payload, 'userId');
+  const displayName = readRequiredText(payload, 'displayName');
+  const password = readRequiredText(payload, 'password');
+  const role = payload['role'];
+  const status = payload['status'] ?? 'Active';
 
-  if (!payload.userId || !payload.displayName || !payload.password || !payload.role) {
+  if (!userId || !displayName || !password || !role) {
     res.status(400).json({ message: 'User ID, display name, password, and role are required.' });
     return;
   }
 
-  if (!allowedRoles.includes(payload.role)) {
+  if (!isUserRole(role)) {
     res.status(400).json({ message: 'Role must be General User or Admin.' });
     return;
   }
 
+  if (!isAccountStatus(status)) {
+    res.status(400).json({ message: 'Status must be Active or Disabled.' });
+    return;
+  }
+
   const database = await readDatabase();
-  if (database.users.some((user) => user.userId === payload.userId)) {
+  if (database.users.some((user) => user.userId === userId)) {
     res.status(409).json({ message: 'User ID already exists.' });
     return;
   }
 
   const newUser = {
     id: `u-${uuid()}`,
-    userId: payload.userId,
-    displayName: payload.displayName,
-    department: payload.department ?? 'Unassigned',
-    role: payload.role,
-    password: payload.password,
-    status: payload.status ?? 'Active',
-    accessLevel: payload.accessLevel ?? 'Standard application access'
+    userId,
+    displayName,
+    department: readOptionalText(payload, 'department') ?? 'Unassigned',
+    role,
+    password,
+    status,
+    accessLevel: readOptionalText(payload, 'accessLevel') ?? 'Standard application access'
   };
 
   database.users.push(newUser);
@@ -125,23 +142,27 @@ app.patch('/api/users/:id', authenticate, requireAdmin, async (req, res) => {
     return;
   }
 
-  const { displayName, department, role, status, accessLevel, password } = req.body;
-  if (role && !allowedRoles.includes(role)) {
+  const payload = req.body as Record<string, unknown>;
+  const role = payload['role'];
+  const status = payload['status'];
+
+  if (role && !isUserRole(role)) {
     res.status(400).json({ message: 'Role must be General User or Admin.' });
     return;
   }
-  if (status && !allowedStatuses.includes(status)) {
+
+  if (status && !isAccountStatus(status)) {
     res.status(400).json({ message: 'Status must be Active or Disabled.' });
     return;
   }
 
   Object.assign(user, {
-    displayName: displayName ?? user.displayName,
-    department: department ?? user.department,
+    displayName: readOptionalText(payload, 'displayName') ?? user.displayName,
+    department: readOptionalText(payload, 'department') ?? user.department,
     role: role ?? user.role,
     status: status ?? user.status,
-    accessLevel: accessLevel ?? user.accessLevel,
-    password: password ?? user.password
+    accessLevel: readOptionalText(payload, 'accessLevel') ?? user.accessLevel,
+    password: readOptionalText(payload, 'password') ?? user.password
   });
 
   await writeDatabase(database);
