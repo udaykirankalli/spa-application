@@ -30,9 +30,15 @@
       <h2>Accessible Records</h2>
       <p>{{ accessNote || 'Loading role based records from the API.' }}</p>
     </div>
-    <button class="quiet-button" type="button" (click)="loadRecords(2200)" [disabled]="loadingRecords">
-      {{ loadingRecords ? 'Loading...' : 'Reload with delay' }}
-    </button>
+    <div class="delay-tools">
+      <label class="field">
+        <span>Delay ms</span>
+        <input type="number" min="0" max="5000" [formControl]="delayControl">
+      </label>
+      <button class="quiet-button" type="button" (click)="loadRecords(delayControl.value)" [disabled]="loadingRecords">
+        {{ loadingRecords ? 'Loading...' : 'Reload records' }}
+      </button>
+    </div>
   </div>
 
   <div class="notice" *ngIf="loadingRecords">Waiting for delayed API response...</div>

@@ -5,9 +5,15 @@
       <h1>User Management</h1>
       <p>Create accounts, adjust roles, and disable access from the local dummy database.</p>
     </div>
-    <button class="quiet-button" type="button" (click)="loadUsers(1600)" [disabled]="loadingUsers">
-      {{ loadingUsers ? 'Loading...' : 'Reload users' }}
-    </button>
+    <div class="delay-tools">
+      <label class="field">
+        <span>Delay ms</span>
+        <input type="number" min="0" max="5000" [formControl]="delayControl">
+      </label>
+      <button class="quiet-button" type="button" (click)="loadUsers(delayControl.value)" [disabled]="loadingUsers">
+        {{ loadingUsers ? 'Loading...' : 'Reload users' }}
+      </button>
+    </div>
   </div>
 
   <div class="admin-grid">

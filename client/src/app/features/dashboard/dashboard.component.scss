@@ -65,6 +65,16 @@ h1 {
   gap: 16px;
 }
 
+.delay-tools {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.delay-tools .field {
+  width: 132px;
+}
+
 @media (max-width: 820px) {
   .dashboard__hero,
   .identity-grid {
@@ -74,5 +84,15 @@ h1 {
   .section-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .delay-tools {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .delay-tools .field {
+    width: 100%;
   }
 }

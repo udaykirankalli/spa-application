@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { AppUser, UserRole } from '../../core/models/user.model';
@@ -13,6 +14,10 @@ import { UserService } from '../../core/services/user.service';
 export class AdminComponent implements OnInit {
   readonly roles: UserRole[] = ['General User', 'Admin'];
   readonly currentUser$ = this.authService.currentUser$;
+  readonly delayControl = new FormControl(1000, {
+    nonNullable: true,
+    validators: [Validators.min(0), Validators.max(5000)]
+  });
   users: AppUser[] = [];
   loadingUsers = false;
   savingUser = false;
@@ -36,10 +41,15 @@ export class AdminComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadUsers(1000);
+    this.loadUsers(this.delayControl.value);
   }
 
   loadUsers(delayMs: number): void {
+    if (this.delayControl.invalid) {
+      this.delayControl.markAsTouched();
+      return;
+    }
+
     this.loadingUsers = true;
     this.errorMessage = '';
     this.userService

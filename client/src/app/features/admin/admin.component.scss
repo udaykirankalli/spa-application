@@ -11,6 +11,16 @@
   gap: 16px;
 }
 
+.delay-tools {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.delay-tools .field {
+  width: 132px;
+}
+
 .eyebrow,
 h1,
 h2,
@@ -78,5 +88,15 @@ td small {
   .section-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .delay-tools {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .delay-tools .field {
+    width: 100%;
   }
 }
