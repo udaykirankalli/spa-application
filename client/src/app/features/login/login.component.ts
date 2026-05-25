@@ -27,6 +27,21 @@ export class LoginComponent {
     private readonly router: Router
   ) {}
 
+  get userIdInvalid(): boolean {
+    const control = this.loginForm.controls.userId;
+    return control.invalid && (control.touched || control.dirty);
+  }
+
+  get passwordInvalid(): boolean {
+    const control = this.loginForm.controls.password;
+    return control.invalid && (control.touched || control.dirty);
+  }
+
+  get delayInvalid(): boolean {
+    const control = this.loginForm.controls.delayMs;
+    return control.invalid && (control.touched || control.dirty);
+  }
+
   submitLogin(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();

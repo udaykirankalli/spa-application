@@ -16,11 +16,13 @@
     <label class="field">
       <span>User ID</span>
       <input type="text" formControlName="userId" autocomplete="username">
+      <small class="field-error" *ngIf="userIdInvalid">User ID is required.</small>
     </label>
 
     <label class="field">
       <span>Password</span>
       <input type="password" formControlName="password" autocomplete="current-password">
+      <small class="field-error" *ngIf="passwordInvalid">Password is required.</small>
     </label>
 
     <label class="field">
@@ -33,6 +35,7 @@
     <label class="field">
       <span>API delay in milliseconds</span>
       <input type="number" min="0" max="5000" formControlName="delayMs">
+      <small class="field-error" *ngIf="delayInvalid">Delay must be between 0 and 5000 ms.</small>
     </label>
 
     <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>

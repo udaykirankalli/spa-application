@@ -23,6 +23,10 @@ export class DashboardComponent implements OnInit {
 
   constructor(private readonly authService: AuthService, private readonly recordService: RecordService) {}
 
+  get delayInvalid(): boolean {
+    return this.delayControl.invalid && (this.delayControl.touched || this.delayControl.dirty);
+  }
+
   ngOnInit(): void {
     this.loadRecords(this.delayControl.value);
   }

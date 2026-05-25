@@ -40,6 +40,14 @@ export class AdminComponent implements OnInit {
     private readonly authService: AuthService
   ) {}
 
+  get createFormInvalid(): boolean {
+    return this.userForm.invalid && (this.userForm.touched || this.userForm.dirty);
+  }
+
+  get delayInvalid(): boolean {
+    return this.delayControl.invalid && (this.delayControl.touched || this.delayControl.dirty);
+  }
+
   ngOnInit(): void {
     this.loadUsers(this.delayControl.value);
   }

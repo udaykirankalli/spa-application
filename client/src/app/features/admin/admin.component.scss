@@ -21,6 +21,17 @@
   width: 132px;
 }
 
+.field-error {
+  color: var(--danger);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.empty-state {
+  color: var(--muted);
+  text-align: center;
+}
+
 .eyebrow,
 h1,
 h2,

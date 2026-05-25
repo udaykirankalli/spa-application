@@ -75,6 +75,17 @@ h1 {
   width: 132px;
 }
 
+.field-error {
+  color: var(--danger);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.empty-state {
+  color: var(--muted);
+  text-align: center;
+}
+
 @media (max-width: 820px) {
   .dashboard__hero,
   .identity-grid {

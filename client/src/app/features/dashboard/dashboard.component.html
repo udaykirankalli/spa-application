@@ -34,6 +34,7 @@
       <label class="field">
         <span>Delay ms</span>
         <input type="number" min="0" max="5000" [formControl]="delayControl">
+        <small class="field-error" *ngIf="delayInvalid">0 to 5000 only.</small>
       </label>
       <button class="quiet-button" type="button" (click)="loadRecords(delayControl.value)" [disabled]="loadingRecords">
         {{ loadingRecords ? 'Loading...' : 'Reload records' }}
@@ -66,6 +67,9 @@
           <td>{{ record.amount | currency: 'INR' }}</td>
           <td><span class="pill">{{ record.risk }}</span></td>
           <td>{{ record.status }}</td>
+        </tr>
+        <tr *ngIf="!loadingRecords && records.length === 0">
+          <td colspan="7" class="empty-state">No records are available for this access level.</td>
         </tr>
       </tbody>
     </table>

@@ -9,6 +9,7 @@
       <label class="field">
         <span>Delay ms</span>
         <input type="number" min="0" max="5000" [formControl]="delayControl">
+        <small class="field-error" *ngIf="delayInvalid">0 to 5000 only.</small>
       </label>
       <button class="quiet-button" type="button" (click)="loadUsers(delayControl.value)" [disabled]="loadingUsers">
         {{ loadingUsers ? 'Loading...' : 'Reload users' }}
@@ -47,6 +48,7 @@
         <input type="text" formControlName="accessLevel">
       </label>
 
+      <p class="field-error" *ngIf="createFormInvalid">User ID, display name, role, and password are required.</p>
       <button class="primary-button" type="submit" [disabled]="savingUser">
         {{ savingUser ? 'Saving...' : 'Create user' }}
       </button>
@@ -94,6 +96,9 @@
                 Delete
               </button>
             </td>
+          </tr>
+          <tr *ngIf="!loadingUsers && users.length === 0">
+            <td colspan="5" class="empty-state">No users are present in the local database.</td>
           </tr>
         </tbody>
       </table>
