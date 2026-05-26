@@ -92,6 +92,10 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .dashboard__hero {
+    padding: 22px;
+  }
+
   .section-heading {
     align-items: flex-start;
     flex-direction: column;
@@ -105,5 +109,15 @@ h1 {
 
   .delay-tools .field {
     width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .dashboard {
+    padding-top: 20px;
+  }
+
+  h1 {
+    font-size: 2rem;
   }
 }

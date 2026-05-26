@@ -91,6 +91,12 @@ td small {
   gap: 8px;
 }
 
+.actions .quiet-button,
+.actions .danger-button {
+  min-height: 36px;
+  padding: 0 12px;
+}
+
 @media (max-width: 980px) {
   .admin-grid {
     grid-template-columns: 1fr;
@@ -109,5 +115,23 @@ td small {
 
   .delay-tools .field {
     width: 100%;
+  }
+}
+
+@media (max-width: 620px) {
+  .admin-page {
+    padding-top: 20px;
+  }
+
+  .user-form {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .actions {
+    min-width: 220px;
   }
 }

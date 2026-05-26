@@ -129,6 +129,8 @@ button {
 
 .table-wrap {
   overflow-x: auto;
+  scrollbar-color: var(--brand) #edf2f7;
+  scrollbar-width: thin;
 }
 
 table {
@@ -163,13 +165,24 @@ th {
   font-weight: 800;
 }
 
+.empty-state {
+  white-space: normal;
+}
+
 @media (max-width: 720px) {
   .page-shell {
     width: min(100% - 20px, 1180px);
   }
 
+  .primary-button,
+  .quiet-button,
+  .danger-button {
+    width: 100%;
+  }
+
   th,
   td {
     padding: 12px 10px;
+    font-size: 0.9rem;
   }
 }

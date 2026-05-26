@@ -61,5 +61,18 @@ h1 {
 @media (max-width: 840px) {
   .login-shell {
     grid-template-columns: 1fr;
+    align-items: start;
+    min-height: auto;
+    padding: 28px 0 42px;
+  }
+
+  h1 {
+    font-size: 2.35rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 20px;
   }
 }

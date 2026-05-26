@@ -39,6 +39,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .nav__link {
@@ -60,7 +62,7 @@
 @media (max-width: 760px) {
   .topbar__inner,
   .nav {
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: column;
   }
 
@@ -70,5 +72,11 @@
 
   .nav {
     width: 100%;
+    gap: 10px;
+  }
+
+  .nav__link,
+  .nav__identity {
+    min-height: 32px;
   }
 }
