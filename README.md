@@ -95,3 +95,7 @@ The API uses a simple bearer token stored in the local JSON database. It is inte
 - UI state such as `loadingRecords`, `savingUser`, and `errorMessage` is kept inside the component that owns it.
 - Shared API logic is moved into Angular services instead of being placed directly inside templates.
 - Authentication headers are attached through an interceptor so API services stay focused on business actions.
+
+## Submission Checklist
+
+See `SUBMISSION.md` for the final requirement mapping, demo credentials, and verification commands.
